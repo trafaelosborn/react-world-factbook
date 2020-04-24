@@ -6,7 +6,7 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          selectedCountry: "Afghanistan"
+          selectedCountry: "uruguay"
         };
       }
 
@@ -25,10 +25,10 @@ class Main extends Component {
                 return ( 
                   
                     <div>
-                <h1>{selectedCountry}</h1>
-                <h1>{dataDetail.countries.bahrain.data.name} </h1>
-                <p>{dataDetail.countries.mexico.data.introduction.background}</p>
-                <p>{dataDetail.countries.afghanistan.data.communications.broadcast_media}</p>
+               
+                <h1>{dataDetail.countries[selectedCountry.toLowerCase()].data.name} </h1>
+                <p>{dataDetail.countries[selectedCountry.toLowerCase()].data.introduction.background}</p>              
+                <p>{dataDetail.countries[selectedCountry.toLowerCase()].data.communications.broadcast_media}</p>
                     </div>                        
                     )
                 
