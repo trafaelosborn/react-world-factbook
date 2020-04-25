@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import Factbook from '../data/factbook.json'
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import IntroCard from './IntroCard'
 
 class Main extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-          selectedCountry: "uruguay"
+          selectedCountry: "Mexico"
         };
       }
+
+      
 
     render () {
       const selectedCountryStr = JSON.stringify(this.state.selectedCountry)
@@ -16,24 +21,31 @@ class Main extends Component {
       
       const selectedCountry = JSON.parse(selectedCountryStr);
       console.log(selectedCountry);
+
+      
+      
         return (
-         
+         <Container>
             <div>
             {Factbook.map((dataDetail, index)=>{
                 
 
                 return ( 
                   
-                    <div>
-               
+                  
+                <div>              
                 <h1>{dataDetail.countries[selectedCountry.toLowerCase()].data.name} </h1>
-                <p>{dataDetail.countries[selectedCountry.toLowerCase()].data.introduction.background}</p>              
-                <p>{dataDetail.countries[selectedCountry.toLowerCase()].data.communications.broadcast_media}</p>
-                    </div>                        
+                <IntroCard dataDetail={dataDetail} selectedCountry={selectedCountry}/>
+                
+                </div>     
+                
+                
+
                     )
                 
             })}
             </div>
+            </Container>
           );
         }
         
