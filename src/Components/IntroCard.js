@@ -18,6 +18,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ClassIcon from '@material-ui/icons/Class';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,13 +45,28 @@ const useStyles = makeStyles((theme) => ({
 
 const iconStyle = {
     fontSize: '50px',
-    color: "dodgerBlue"
+    color: "dodgerBlue",
+    
+    marginTop: '10px'
+
+}
+
+const cardStyle = {
+    margin: '17px',
+  }
+
+  const carrotStyle = {
+    fontSize: '50px',
+    color: "dodgerBlue",
+    float: 'right'
 }
 
 
 export default function RecipeReviewCard(props) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
+
+    
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -60,15 +76,17 @@ export default function RecipeReviewCard(props) {
     console.log(props)
     return (
         
-        <Card className={classes.root}>
+        <Card className={classes.root} style={cardStyle}>
 
                    <CardContent>
-                   <h2>Introduction</h2>    
+                   <h2 >Introduction</h2>    
+                   <Divider />
                     <ClassIcon aria-label="introduction" style={iconStyle}> </ClassIcon>
                    
               
                    
                         <IconButton
+                        style={carrotStyle}
                             className={clsx(classes.expand, {
                                 [classes.expandOpen]: expanded,
                             })}

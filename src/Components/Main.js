@@ -3,13 +3,14 @@ import Factbook from '../data/factbook.json'
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import IntroCard from './IntroCard'
+import GeoCard from './GeoCard'
 
 class Main extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-          selectedCountry: "Mexico"
+          selectedCountry: "Malta"
         };
       }
 
@@ -35,7 +36,8 @@ class Main extends Component {
                   
                 <div>              
                 <h1>{dataDetail.countries[selectedCountry.toLowerCase()].data.name} </h1>
-                <IntroCard dataDetail={dataDetail} selectedCountry={selectedCountry}/>
+                <IntroCard dataDetail={dataDetail} selectedCountry={selectedCountry} />
+                <GeoCard dataDetail={dataDetail} selectedCountry={selectedCountry} />
                 
                 </div>     
                 
