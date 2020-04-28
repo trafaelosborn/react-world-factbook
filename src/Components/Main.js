@@ -10,21 +10,16 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          selectedCountry: "Malta"
+          selectedCountry: "akrotiri"
         };
       }
 
       
 
     render () {
-      const selectedCountryStr = JSON.stringify(this.state.selectedCountry)
-      console.log(selectedCountryStr);
-      
+      const selectedCountryStr = JSON.stringify(this.state.selectedCountry)   
       const selectedCountry = JSON.parse(selectedCountryStr);
-      console.log(selectedCountry);
-
-      
-      
+        
         return (
          <Container>
             <div>
