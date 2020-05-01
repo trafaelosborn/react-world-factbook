@@ -73,25 +73,26 @@ export default function GeographyReviewCard(props) {
     const borderCountries = geography.land_boundaries.border_countries;
     const maritimeClaims = geography.maritime_claims;
     const area = geography.area;
-    
+    const elevation = geography.elevation
+
     // console.log(maritimeClaims)
 
     //Maritime Claims//
     let contiguousRender;
     maritimeClaims ? contiguousRender = geography.maritime_claims.contiguous_zone.value + " " + geography.maritime_claims.contiguous_zone.units : contiguousRender = "none"
 
-    let continentalShelf; 
-    if (maritimeClaims) {continentalShelf = geography.maritime_claims.continental_shelf};
+    let continentalShelf;
+    if (maritimeClaims) { continentalShelf = geography.maritime_claims.continental_shelf };
     let continentalRender;
     continentalShelf ? continentalRender = geography.maritime_claims.continental_shelf.value + " " + geography.maritime_claims.continental_shelf.units : continentalRender = "none"
 
-    let econZone; 
-    if (maritimeClaims) {econZone = geography.maritime_claims.exclusive_economic_zone}
+    let econZone;
+    if (maritimeClaims) { econZone = geography.maritime_claims.exclusive_economic_zone }
     let econRender;
     econZone ? econRender = geography.maritime_claims.continental_shelf.value + " " + geography.maritime_claims.continental_shelf.units : econRender = "none"
 
-    let territorialSea; 
-    if(maritimeClaims) {territorialSea = geography.maritime_claims.territorial_sea}
+    let territorialSea;
+    if (maritimeClaims) { territorialSea = geography.maritime_claims.territorial_sea }
     let seaRender;
     territorialSea ? seaRender = geography.maritime_claims.territorial_sea.value + " " + geography.maritime_claims.territorial_sea.units : seaRender = "none"
 
@@ -109,14 +110,24 @@ export default function GeographyReviewCard(props) {
 
     //area
     let land;
-    if (area) {land = area.land};
+    if (area) { land = area.land };
     let landRender
     land ? landRender = geography.area.land.value + "" + geography.area.land.units : landRender = "none"
 
     let water;
-    if (area) {water = area.water};
+    if (area) { water = area.water };
     let waterRender
-    water ? waterRender = geography.area.water.value+" "+geography.area.water.units : waterRender = "none"
+    water ? waterRender = geography.area.water.value + " " + geography.area.water.units : waterRender = "none"
+
+    //Elevation
+    let highPointRender;
+    elevation ? highPointRender = geography.elevation.highest_point.name + ": " + geography.elevation.highest_point.elevation.value + " " + geography.elevation.highest_point.elevation.units : highPointRender = "none"
+
+    let lowPointRender;
+    elevation ? lowPointRender = geography.elevation.lowest_point.name + ": " + geography.elevation.lowest_point.elevation.value + " " + geography.elevation.lowest_point.elevation.units : lowPointRender = "none"
+
+    let meanPointRender;
+    elevation ? meanPointRender = geography.elevation.mean_elevation.value + " " + geography.elevation.mean_elevation.units : meanPointRender = "none"
 
     return (
 
@@ -169,7 +180,7 @@ export default function GeographyReviewCard(props) {
                     <Typography paragraph>
                         <p>Comparative: {geography.area.comparative}</p>
                         <p>Total: {geography.area.total.value} {geography.area.total.units}</p>
-                <p>Land: {landRender}</p>
+                        <p>Land: {landRender}</p>
                         <p>Water: </p>
                     </Typography>
 
@@ -191,16 +202,26 @@ export default function GeographyReviewCard(props) {
                     </Typography>
                     <Typography paragraph><h4>Maritime Claims:</h4></Typography>
                     <Typography paragraph>
+
                         <p>Contiguous Zone: {contiguousRender}</p>
                         <p>Continental Shelf: {continentalRender}</p>
                         <p>Exclusive Economic Zone: {econRender}</p>
                         <p>Territorial Sea: {seaRender}</p>
                     </Typography>
+
                     <Typography paragraph><h4>Climate:</h4></Typography>
-                <Typography paragraph>{geography.climate}</Typography>
-                <Typography paragraph><h4>Terrain:</h4></Typography>
-                <Typography paragraph>{geography.terrain}</Typography>
+                    <Typography paragraph>{geography.climate}</Typography>
+
+                    <Typography paragraph><h4>Terrain:</h4></Typography>
+                    <Typography paragraph>{geography.terrain}</Typography>
+                    <Typography paragraph><h4>Elevation:</h4></Typography>
+                    <p>Highest Point: {highPointRender}</p>
+                    <p>Lowest Point: {lowPointRender}</p>
+                    <p>Mean Point: {meanPointRender}</p>
                 </CardContent>
+
+
+
             </Collapse>
         </Card>
     );
