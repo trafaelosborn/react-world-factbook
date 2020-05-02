@@ -74,27 +74,37 @@ export default function GeographyReviewCard(props) {
     const maritimeClaims = geography.maritime_claims;
     const area = geography.area;
     const elevation = geography.elevation
+    const resources = geography.natural_resources
+    const landUse = geography.land_use
+    const landBoundaries = geography.land_boundaries
+    console.log(dataDetail.countries[selectedCountry.toLowerCase()].data.name)
 
-    // console.log(maritimeClaims)
+    // Land Boundaries
+    let boundaryRender;
+    if (selectedCountry === "antarctica") {boundaryRender = landBoundaries.note}
+    else {
+    landBoundaries ? boundaryRender = landBoundaries.total.value + " " + landBoundaries.total.units : boundaryRender = "none"
+}
 
     //Maritime Claims//
+    
     let contiguousRender;
-    maritimeClaims ? contiguousRender = geography.maritime_claims.contiguous_zone.value + " " + geography.maritime_claims.contiguous_zone.units : contiguousRender = "none"
-
+    maritimeClaims.contiguous_zone ? contiguousRender = geography.maritime_claims.contiguous_zone.value + " " + geography.maritime_claims.contiguous_zone.units : contiguousRender = "none"
+    
     let continentalShelf;
     if (maritimeClaims) { continentalShelf = geography.maritime_claims.continental_shelf };
     let continentalRender;
-    continentalShelf ? continentalRender = geography.maritime_claims.continental_shelf.value + " " + geography.maritime_claims.continental_shelf.units : continentalRender = "none"
+    continentalShelf ? continentalRender = continentalShelf.value + " " + continentalShelf.units : continentalRender = "none"
 
     let econZone;
     if (maritimeClaims) { econZone = geography.maritime_claims.exclusive_economic_zone }
     let econRender;
-    econZone ? econRender = geography.maritime_claims.continental_shelf.value + " " + geography.maritime_claims.continental_shelf.units : econRender = "none"
+    econZone ? econRender = econZone.value + " " + econZone.units : econRender = "none"
 
     let territorialSea;
     if (maritimeClaims) { territorialSea = geography.maritime_claims.territorial_sea }
     let seaRender;
-    territorialSea ? seaRender = geography.maritime_claims.territorial_sea.value + " " + geography.maritime_claims.territorial_sea.units : seaRender = "none"
+    territorialSea ? seaRender = territorialSea.value + " " + territorialSea.units : seaRender = "none"
 
     //Border//
     let borderRender;
@@ -129,8 +139,36 @@ export default function GeographyReviewCard(props) {
     let meanPointRender;
     elevation ? meanPointRender = geography.elevation.mean_elevation.value + " " + geography.elevation.mean_elevation.units : meanPointRender = "none"
 
+    //Natural Resources
+    let resourceRender;
+    resources ? resourceRender = resources.resources.map((resourceDetail, index) => {
+        return(
+            <div>
+                <ul>
+                    <li>{resourceDetail}</li>
+                </ul>
+            </div>
+        )
+    }) : resourceRender = "none"
+
+    //Land Use
+    let agriRender;
+    landUse ? agriRender = landUse.by_sector.agricultural_land_total : agriRender = "none" 
+    let arableRender;
+    landUse ? arableRender = landUse.by_sector.arable_land : arableRender = "none" 
+    let cropsRender;
+    landUse ? cropsRender = landUse.by_sector.permanent_crops : cropsRender = "none" 
+    let pastureRender;
+    landUse ? pastureRender = landUse.by_sector.permanent_pasture : pastureRender = "none" 
+    let forestRender;
+    landUse ? forestRender = landUse.by_sector.forest : forestRender = "none" 
+    let otherRender;
+    landUse ? otherRender = landUse.by_sector.other : otherRender = "none" 
+    
+
     return (
 
+    
         <Card className={classes.root} style={cardStyle}>
 
             <CardContent>
@@ -190,7 +228,7 @@ export default function GeographyReviewCard(props) {
                     </Typography>
                     <Typography paragraph><h4>Land Boundaries</h4></Typography>
                     <Typography paragraph>
-                        <p>Total: {geography.land_boundaries.total.value} {geography.land_boundaries.total.units}</p>
+                    <p>Total: {boundaryRender}</p>
                     </Typography>
                     <Typography paragraph>
                         <p>Border Countries: {borderRender}</p>
@@ -202,7 +240,6 @@ export default function GeographyReviewCard(props) {
                     </Typography>
                     <Typography paragraph><h4>Maritime Claims:</h4></Typography>
                     <Typography paragraph>
-
                         <p>Contiguous Zone: {contiguousRender}</p>
                         <p>Continental Shelf: {continentalRender}</p>
                         <p>Exclusive Economic Zone: {econRender}</p>
@@ -218,6 +255,15 @@ export default function GeographyReviewCard(props) {
                     <p>Highest Point: {highPointRender}</p>
                     <p>Lowest Point: {lowPointRender}</p>
                     <p>Mean Point: {meanPointRender}</p>
+                    <Typography paragraph><h4>Natural Resources:</h4></Typography>
+                    <Typography paragraph>{resourceRender}</Typography>
+                    <Typography paragraph><h4>Land Use By Sector</h4></Typography>
+                    <Typography paragraph>Total Agricultural Land: {agriRender.value} {agriRender.units}</Typography>
+                    <Typography paragraph>Arable Land: {arableRender.value} {arableRender.units}</Typography>
+                    <Typography paragraph>Permanent Crop Land: {cropsRender.value} {cropsRender.units}</Typography>
+                    <Typography paragraph>Permanent Pasture Land: {pastureRender.value} {pastureRender.units}</Typography>
+                    <Typography paragraph>Forest: {forestRender.value} {forestRender.units}</Typography>
+                    <Typography paragraph>Other: {otherRender.value} {otherRender.units}</Typography>
                 </CardContent>
 
 
