@@ -77,7 +77,11 @@ export default function GeographyReviewCard(props) {
     const resources = geography.natural_resources
     const landUse = geography.land_use
     const landBoundaries = geography.land_boundaries
-    console.log(dataDetail.countries[selectedCountry.toLowerCase()].data.name)
+    const irrigated = geography.irrigated_land
+    const popDistro = geography.population_distribution
+    const hazards = geography.natural_hazards
+    const environment = geography.environment
+    // console.log(irrigated)
 
     // Land Boundaries
     let boundaryRender;
@@ -87,14 +91,15 @@ export default function GeographyReviewCard(props) {
 }
 
     //Maritime Claims//
-    
+    let contiguousZone;
+    if (maritimeClaims && maritimeClaims.contiguous_zone) {contiguousZone = geography.maritime_claims.contiguous_zone}
     let contiguousRender;
-    maritimeClaims.contiguous_zone ? contiguousRender = geography.maritime_claims.contiguous_zone.value + " " + geography.maritime_claims.contiguous_zone.units : contiguousRender = "none"
-    
+    maritimeClaims && maritimeClaims.contiguous_zone ? contiguousRender = geography.maritime_claims.contiguous_zone.value + " " + geography.maritime_claims.contiguous_zone.units : contiguousRender = "none"
+
     let continentalShelf;
-    if (maritimeClaims) { continentalShelf = geography.maritime_claims.continental_shelf };
+    if (maritimeClaims && maritimeClaims.continental_shelf) { continentalShelf = geography.maritime_claims.continental_shelf };
     let continentalRender;
-    continentalShelf ? continentalRender = continentalShelf.value + " " + continentalShelf.units : continentalRender = "none"
+    maritimeClaims && maritimeClaims.continentalShelf ? continentalRender = continentalShelf.value + " " + continentalShelf.units : continentalRender = "none"
 
     let econZone;
     if (maritimeClaims) { econZone = geography.maritime_claims.exclusive_economic_zone }
@@ -102,9 +107,9 @@ export default function GeographyReviewCard(props) {
     econZone ? econRender = econZone.value + " " + econZone.units : econRender = "none"
 
     let territorialSea;
-    if (maritimeClaims) { territorialSea = geography.maritime_claims.territorial_sea }
+    if (maritimeClaims && maritimeClaims.territorial_sea) { territorialSea = geography.maritime_claims.territorial_sea }
     let seaRender;
-    territorialSea ? seaRender = territorialSea.value + " " + territorialSea.units : seaRender = "none"
+    maritimeClaims && maritimeClaims.territorial_sea ? seaRender = territorialSea.value + " " + territorialSea.units : seaRender = "none"
 
     //Border//
     let borderRender;
@@ -151,6 +156,55 @@ export default function GeographyReviewCard(props) {
         )
     }) : resourceRender = "none"
 
+    //Natural Hazards
+    let hazardRender;
+    hazards ? hazardRender = hazards.map((hazardDetail, index) => {
+        return(
+            <div>
+                <ul>
+                    <li>{hazardDetail.description}</li>
+                </ul>
+            </div>
+        )
+    }) : resourceRender = "none"
+
+     //Environment
+     let issueRender;
+     environment && environment.current_issues ? issueRender = environment.current_issues.map((issueDetail, index) => {
+        return(
+            <div>
+                <ul>
+                    <li>{issueDetail}</li>
+                </ul>
+            </div>
+        )
+    })    
+     : issueRender = "none"
+
+    let partyRender;
+     environment && environment.international_agreements && environment.international_agreements.party_to ? partyRender =environment.international_agreements.party_to.map((partyDetail, index) => {
+        return(
+            <div>
+                <ul>
+                    <li>{partyDetail}</li>
+                </ul>
+            </div>
+        )
+    })     
+      : partyRender = "none"
+
+    let signedRender;
+    environment && environment.international_agreements && environment.international_agreements.signed_but_not_ratified ? signedRender =environment.international_agreements.signed_but_not_ratified.map((signedDetail, index) => {
+        return(
+            <div>
+                <ul>
+                    <li>{signedDetail}</li>
+                </ul>
+            </div>
+        )
+    })    : signedRender = "none"; 
+    
+  
     //Land Use
     let agriRender;
     landUse ? agriRender = landUse.by_sector.agricultural_land_total : agriRender = "none" 
@@ -164,7 +218,16 @@ export default function GeographyReviewCard(props) {
     landUse ? forestRender = landUse.by_sector.forest : forestRender = "none" 
     let otherRender;
     landUse ? otherRender = landUse.by_sector.other : otherRender = "none" 
-    
+
+    //Irrigated Land
+    let irrigatedRender;
+    irrigated ? irrigatedRender = irrigated.value + " " + irrigated.units + " as of " + irrigated.date : irrigatedRender = "none"
+
+    //Population Distribution
+    let popRender;
+    popDistro ? popRender = popDistro : popRender = "none"
+
+   
 
     return (
 
@@ -222,10 +285,6 @@ export default function GeographyReviewCard(props) {
                         <p>Water: </p>
                     </Typography>
 
-                    <Typography paragraph><h4>Location</h4></Typography>
-                    <Typography paragraph>
-                        <p>{geography.location}</p>
-                    </Typography>
                     <Typography paragraph><h4>Land Boundaries</h4></Typography>
                     <Typography paragraph>
                     <p>Total: {boundaryRender}</p>
@@ -264,6 +323,17 @@ export default function GeographyReviewCard(props) {
                     <Typography paragraph>Permanent Pasture Land: {pastureRender.value} {pastureRender.units}</Typography>
                     <Typography paragraph>Forest: {forestRender.value} {forestRender.units}</Typography>
                     <Typography paragraph>Other: {otherRender.value} {otherRender.units}</Typography>
+                    <Typography paragraph><h4>Irrigated Land:</h4></Typography>
+                    <p>{irrigatedRender}</p>
+                    <Typography paragraph><h4>Population Distribution:</h4></Typography>
+                    <p>{popRender}</p>
+                    <Typography paragraph><h4>Natural Hazards:</h4></Typography>
+                    <p>{hazardRender}</p>
+                    <Typography paragraph><h4>Environment:</h4></Typography>
+                <p>Current Issues: {issueRender}</p>
+                <p>International Environmental Agreements: </p>
+                <p>Party To: {partyRender}</p>
+                <p>Signed But Not Ratified: </p>
                 </CardContent>
 
 
