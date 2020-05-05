@@ -11,7 +11,7 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedCountry: "antarctica"
+      selectedCountry: "united_states"
     };
   }
 

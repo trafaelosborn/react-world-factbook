@@ -77,13 +77,12 @@ export default function RecipeReviewCard(props) {
     const people = dataDetail.countries[selectedCountry.toLowerCase()].data.people;
     const population = people.population;
     const nationality = people.nationality;
-    const noPopulation = !population; 
     const adultObesity = people.adult_obesity;
     const ageStructure = people.age_structure;
     const birthRate = people.birth_rate;
     const contraceptive = people.contraceptive_prevalence_rate;
     const deathRate = people.death_rate;
-    const dependency = people.dependency_ratios;
+    const dependency = people.dependency_ratios.ratios;
     const drinkingWater = people.drinking_water_source;
     const edExpend = people.education_expenditures;
     const ethnicGroups = people.ethnic_groups;
@@ -109,7 +108,38 @@ export default function RecipeReviewCard(props) {
     const youthUnemployment = people.youth_unemployment;
     const hivAids = people.hiv_aids
 
+    let ethnicityRender;
+     ethnicGroups.ethnicity ? ethnicityRender = ethnicGroups.ethnicity.map((ethnicityDetail, index) => {
+        return (
+            <div>
+                <ul>
+        <li>{ethnicityDetail.name}: {ethnicityDetail.percent}%</li>
+                </ul>
+            </div>
+        )
+    }) : ethnicityRender = null
 
+    let languageRender;
+     languages ? languageRender = people.languages.language.map((languageDetail, index) => {
+        return (
+            <div>
+                <ul>
+        <li>{languageDetail.name}: {languageDetail.percent}%</li>
+                </ul>
+            </div>
+        )
+    }) : languageRender = null
+
+    let religionRender;
+     religions ? religionRender = religions.religion.map((religionDetail, index) => {
+        return (
+            <div>
+                <ul>
+        <li>{religionDetail.name}: {religionDetail.percent}%</li>
+                </ul>
+            </div>
+        )
+    }) : religionRender = null
 
 
 
@@ -157,6 +187,51 @@ export default function RecipeReviewCard(props) {
                         </Typography>
                     }             
                     </div>
+
+                    <div> { !ethnicGroups ? null :                    
+                    <Typography paragraph>
+                        <h4>Ethnic Groups as of {ethnicGroups.date}</h4>
+                        <p>{ethnicityRender}</p>
+                        </Typography>
+                    }             
+                    </div>
+
+                    <div> { !languages ? null :                    
+                    <Typography paragraph>
+                        <h4>Languages:</h4>
+                        <p>{languageRender}</p>
+                        </Typography>
+                    }             
+                    </div>
+
+                    <div> { !religions ? null :                    
+                    <Typography paragraph>
+                        <h4>Religions:</h4>
+                        <p>{religionRender}</p>
+                        </Typography>
+                    }             
+                    </div>
+
+                    {/* FIX */}
+                    {/* <div> { !ageStructure ? null :
+                    <Typography paragraph><h4>Age Structure as of {ageStructure.date}</h4>
+                         <p>0-14: {}% ({ageStructure.male} males/{ageStructure.female} females)</p>
+                        <p>Global Rank: {population.global_rank}</p>
+                    </Typography>                  
+                    }
+                    </div> */}
+
+                    <div> { !dependency ? null :                    
+                    <Typography paragraph>
+                        <h4>Dependency Ratios:</h4>
+                        <p>Elderly Dependency Ratio: {dependency.elderly_dependency_ratio.value} {dependency.elderly_dependency_ratio.units}</p>
+                        <p>Potential Support Ratio: {dependency.potential_support_ratio.value} {dependency.potential_support_ratio.units}</p>
+                        <p>Total Dependency Ratio: {dependency.total_dependency_ratio.value} {dependency.total_dependency_ratio.units}</p>
+                        <p>Youth Dependency Ratio: {dependency.youth_dependency_ratio.value} {dependency.youth_dependency_ratio.units}</p>
+                        </Typography>
+                    }             
+                    </div>
+
                 </CardContent>
             </Collapse>
         </Card>
